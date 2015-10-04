@@ -1,36 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <!--Master template -->
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <title>{pagetitle}</title>
-        <meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"/>
-        <link rel="stylesheet" type="text/css" media="all" href="css/reset.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="css/text.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="css/lightbox.css" />
+        <title>Tennessee Titans</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <script src="assets/js/jquery-1.11.3.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <div id="wrapper">
-            <div id="header">
-                <span class="myhead">Tennessee Titans</span>
-                <span class="mynav">
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/roster">Roster</a></li>
-                        <li><a href="/league">League</a></li>
-                        <li><a href="/about">About</a></li>
-                    </ul>
-                </span>
+        <div class="container">
+            <div class="col-md-*">
+                <ul class="nav nav-tabs">
+                    <li role="presentation"><a href="/">Home</a></li>
+                    <li role="presentation"><a href="/roster">Roster</a></li>
+                    <li role="presentation"><a href="/league">League</a></li>
+                    <li role="presentation"><a href="/about">About</a></li>
+                </ul>
             </div>
-            <div class="alone"></div>
-            <div id="content">
+
+            <br>
+
+            <div class="col-md-*">
                 {content}
             </div>
-            <div id="footer" class="span12">
-                Copyright &copy; 2014,  <a href="mailto:someone@somewhere.com">Me</a>.
-            </div>
         </div>
-        <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script> 
-        <script type="text/javascript" src="js/lightbox.min.js"></script> 
     </body>
 </html>
