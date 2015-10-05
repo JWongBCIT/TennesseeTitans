@@ -2,6 +2,9 @@
 
 /* This class repersents a team in the league */
 
+/**
+ * @author adamh
+ */
 class Team {
 
     function __construct($name, $div, $key) {
@@ -37,7 +40,7 @@ class Leagues extends CI_Model {
      * league.
      */
 
-    function mockData() {
+    function data() {
         $teams = array();
         $teamKeys = array(
             "ARI",
@@ -159,7 +162,7 @@ class Leagues extends CI_Model {
      * mockData function.
      */
     function all() {
-        //return mockData();
+        return  $this->data();
     }
 
 }
