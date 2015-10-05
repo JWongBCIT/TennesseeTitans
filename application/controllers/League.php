@@ -3,14 +3,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * This is the league controller is gets every team in the league from the 
+ * This is the league controller. It gets every team in the league from the 
  * leagues model and sends it to the view.
  *
  * @author adamh
  */
 class League extends Application {
     /*
-     * The iindex method for /league
+     * The index method for /league
      */
 
     public function index() {
