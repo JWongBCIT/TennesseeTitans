@@ -1,19 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of About
+ * The about controller controls the /about/
  *
- * @author spero
+ * @author adamh
  */
 class About extends Application {
-    //put your code here
     
+    
+    //index for /about/
     public function index()
 	{
 		$this->data['pagebody'] = 'about'; $this->render();
