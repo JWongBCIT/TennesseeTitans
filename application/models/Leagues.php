@@ -24,7 +24,7 @@ class Team {
  *
  * @author adamh
  */
-class League extends CI_Model {
+class Leagues extends CI_Model {
 
     //constructor (a good practice)
     function __construct() {
@@ -159,7 +159,7 @@ class League extends CI_Model {
      * mockData function.
      */
     function all() {
-        return mockData();
+        //return mockData();
     }
 
 }
