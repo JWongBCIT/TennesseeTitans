@@ -16,6 +16,8 @@ class League extends Application {
     
     public function index()
 	{
-		$this->data['pagebody'] = 'league'; $this->render();
+                $teams = $this->leagues->all();
+		$this->data['pagebody'] = 'league'; 
+                $this->render();
 	}
 }
