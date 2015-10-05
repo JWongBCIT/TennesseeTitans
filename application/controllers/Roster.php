@@ -37,9 +37,10 @@ class Roster extends Application {
         $this->data['table-head'] = $this->table->generate();
         $this->table->clear();
 
-        //Add each player to a row for displaying
+        //Add each player to a row for displaying and headers
+        $this->table->set_heading("", "Player", "Number", "Position");
         foreach ($players as $player) {
-            $this->table->add_row($player->name, $player->num, $player->pos);
+            $this->table->add_row( '<img height = "40" src="../assets/images/temp-mug.png">', $player->name, $player->num, $player->pos);
         }
 
         //Set facade
