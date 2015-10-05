@@ -1,0 +1,10 @@
+{AFC}
+{ACE}
+{ACN}
+{ACS}
+{ACW}
+{NFC}
+{NCE}
+{NCN}
+{NCS}
+{NCW}
