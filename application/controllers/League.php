@@ -16,7 +16,7 @@ class League extends Application {
     public function index() {
 
         //Gets all the team in the leagues model
-        $teams = $this->leagues->all();
+        //$teams = $this->leagues->all();
 
         //add the table helper
         $this->load->library('table');
@@ -39,41 +39,37 @@ class League extends Application {
         $this->table->clear();
 
         //Create table for each team group
-
+        $teams = $this->leagues->getByDivision('AFC East');
         $this->table->set_heading("AFC East Team");
         foreach ($teams as $team) {
-            if ($team->div == "ACE") {
-                $this->table->add_row($team->teamName);
-            }
+            $this->table->add_row($team);
         }
-        $this->data['ACE'] = $this->table->generate();
+        $this->data['AFC East'] = $this->table->generate();
         $this->table->clear();
 
+        
+        $teams = $this->leagues->getByDivision('AFC North');
         $this->table->set_heading("AFC North Team");
         foreach ($teams as $team) {
-            if ($team->div == "ACN") {
-                $this->table->add_row($team->teamName);
-            }
+            $this->table->add_row($team);
         }
-        $this->data['ACN'] = $this->table->generate();
+        $this->data['AFC North'] = $this->table->generate();
         $this->table->clear();
 
+        $teams = $this->leagues->getByDivision('AFC South');
         $this->table->set_heading("AFC South Team");
         foreach ($teams as $team) {
-            if ($team->div == "ACS") {
-                $this->table->add_row($team->teamName);
-            }
+            $this->table->add_row($team);
         }
-        $this->data['ACS'] = $this->table->generate();
+        $this->data['AFC South'] = $this->table->generate();
         $this->table->clear();
 
+        $teams = $this->leagues->getByDivision('AFC West');
         $this->table->set_heading("AFC West Team");
         foreach ($teams as $team) {
-            if ($team->div == "ACW") {
-                $this->table->add_row($team->teamName);
-            }
+            $this->table->add_row($team);
         }
-        $this->data['ACW'] = $this->table->generate();
+        $this->data['AFC West'] = $this->table->generate();
         $this->table->clear();
 
         //NF Conference
@@ -82,44 +78,40 @@ class League extends Application {
         $this->data['NFC'] = $this->table->generate();
         $this->table->clear();
 
-        //create tables for each team group
+        //Create table for each team group
+        $teams = $this->leagues->getByDivision('NFC East');
         $this->table->set_heading("NFC East Team");
         foreach ($teams as $team) {
-            if ($team->div == "NCE") {
-                $this->table->add_row($team->teamName);
-            }
+            $this->table->add_row($team);
         }
-        $this->data['NCE'] = $this->table->generate();
+        $this->data['NFC East'] = $this->table->generate();
         $this->table->clear();
 
+        
+        $teams = $this->leagues->getByDivision('NFC North');
         $this->table->set_heading("NFC North Team");
         foreach ($teams as $team) {
-            if ($team->div == "NCN") {
-                $this->table->add_row($team->teamName);
-            }
+            $this->table->add_row($team);
         }
-        $this->data['NCN'] = $this->table->generate();
+        $this->data['NFC North'] = $this->table->generate();
         $this->table->clear();
 
+        $teams = $this->leagues->getByDivision('NFC South');
         $this->table->set_heading("NFC South Team");
         foreach ($teams as $team) {
-            if ($team->div == "NCS") {
-                $this->table->add_row($team->teamName);
-            }
+            $this->table->add_row($team);
         }
-        $this->data['NCS'] = $this->table->generate();
+        $this->data['NFC South'] = $this->table->generate();
         $this->table->clear();
-        
+
+        $teams = $this->leagues->getByDivision('NFC West');
         $this->table->set_heading("NFC West Team");
         foreach ($teams as $team) {
-            if ($team->div == "NCW") {
-                $this->table->add_row($team->teamName);
-            }
+            $this->table->add_row($team);
         }
-        $this->data['NCW'] = $this->table->generate();
+        $this->data['NFC West'] = $this->table->generate();
         $this->table->clear();
         
-       
         //render the page
         $this->data['pagebody'] = 'league';
         $this->render();

@@ -1,10 +1,11 @@
 {AFC}
-{ACE}
-{ACN}
-{ACS}
-{ACW}
+{AFC East}
+{AFC North}
+{AFC South}
+{AFC West}
 {NFC}
-{NCE}
-{NCN}
-{NCS}
-{NCW}
+{NFC East}
+{NFC North}
+{NFC South}
+{NFC West}
+
