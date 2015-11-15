@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `league` (
     PRIMARY KEY (id)
 );
 
-INSERT INTO `league` (`name`,`conference`, `division`) VALUES
+INSERT INTO `league` (`name`,`city`,`conference`, `division`, `filename`) VALUES
 ('Buffalo Bills', 'Buffalo', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
 ('Miami Dolphins', 'Miami', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
 ('New England Patriots', 'New England', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
