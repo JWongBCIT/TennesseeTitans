@@ -29,9 +29,6 @@ class League extends Application {
         //set the table to use the bootstrap template
         $this->table->set_template($parms);
 
-
-
-
         //create a section for each conference
         //AF Conference
         $this->table->set_heading('American Football Conference - 2015 Regular Season');
