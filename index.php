@@ -96,9 +96,9 @@ switch (ENVIRONMENT)
  *
  * This variable must contain the name of your "system" folder.
  * Include the path if the folder is not in the same directory
- * as this file.
+ * as this file. This was fixed from last asn.
  */
-	$system_path = 'c:/xampp/htdocs/system3';
+	$system_path = '../system3';
 
 /*
  *---------------------------------------------------------------
