@@ -116,7 +116,7 @@ class Roster extends Application {
 
         //set the table to use the bootstrap template
         $this->table->set_template($parms);
-//
+
         //Create table heading 
         $this->table->set_heading('<div style="text-align:center;">Tennessee Titans Roster - 2015</div>', '<div class="btn-group">
             <a href="' . base_url() . 'roster/order/name" class="btn btn-primary ' . $name . '">Name</a>
@@ -144,7 +144,7 @@ class Roster extends Application {
         for ($i = $id; $i < $id + 12 && $i < $num_players; $i++) {
             $player = $players[$i];
             array_push($galleryPlayers, $players[$i]);
-            $this->table->add_row('<img height = "40" src="assets/images/players/' . $player["mugshot"] . '">', $player["firstname"] . " " . $player["surname"], $player["number"], $player["position"]);
+            $this->table->add_row('<img height = "40" src="../assets/images/players/' . $player["mugshot"] . '">', $player["firstname"] . " " . $player["surname"], $player["number"], $player["position"]);
         }
 
         //Set facade
