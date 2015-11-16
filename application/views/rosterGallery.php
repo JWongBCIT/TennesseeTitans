@@ -4,9 +4,7 @@
 <script src="{basic_url}/assets/js/bootstrap.min.js"></script>
 
 {table-head}
-
-<!--<a href="/Player/add" id="player_add_button" class="btn btn-info" role="button">Add Player</a>-->
-
+{add_player}
 <br /><br />
 <div>
     {players}

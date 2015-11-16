@@ -14,7 +14,7 @@ function cmpPosition($a, $b) {
     return strcmp($a['position'], $b['position']);
 }
 
-/*
+/*50em
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -41,6 +41,10 @@ class Roster extends Application {
             $_SESSION['viewState'] = 'table';
         }
         
+        if (isset($_SESSION['editor']) == FALSE) {
+            $_SESSION['editor'] = 'off';
+        }
+        
         $players = $this->rosters->all();
 
         $name = "";
@@ -48,6 +52,8 @@ class Roster extends Application {
         $position = "";
         $table = "";
         $gallery = "";
+        $editorOn = "";
+        $editorOff = "";
                
         if ($_SESSION['viewState'] == 'table') {
             $table = "active";
@@ -55,6 +61,11 @@ class Roster extends Application {
             $gallery = "active";
         }
         
+        if ($_SESSION['editor'] == 'on') {
+            $editorOn = "active";
+        } else if ($_SESSION['editor'] == 'off') {
+            $editorOff = "active";
+        }
 
         if ($_SESSION['orderBy'] == 'name') {
             $name = "active";
@@ -123,11 +134,20 @@ class Roster extends Application {
             <a href="' . base_url() . 'roster/order/number" class="btn btn-primary ' . $number . '">Number</a>
             <a href="' . base_url() . 'roster/order/position" class="btn btn-primary ' . $position . '">Position</a>
         </div>',
-                '<div class="btn-group">
+        '<div class="btn-group">
             <a href="' . base_url() . 'roster/toggle/table" class="btn btn-primary ' . $table . '">Table View</a>
             <a href="' . base_url() . 'roster/toggle/gallery" class="btn btn-primary ' . $gallery . '">Gallery View</a>
+        </div>',
+        '<div class="btn-group">
+            <a href="' . base_url() . 'roster/editor/on" class="btn btn-primary ' . $editorOn . '">Edit</a>
+            <a href="' . base_url() . 'roster/editor/off" class="btn btn-primary ' . $editorOff . '">Edit Off</a>
         </div>'
         );
+        
+        $this->data['add_player'] = "";
+        if($_SESSION['editor'] == 'on'){
+            $this->data['add_player'] = '<a href="/Player/add" id="player_add_button" class="btn btn-info" role="button">Add Player</a>';
+        }
         
         $this->data['table-head'] = $this->table->generate();
         $this->table->clear();
@@ -187,6 +207,18 @@ class Roster extends Application {
         $_SESSION['orderBy'] = $id;
         header('Location: /roster');
     }
+    
+    
+    /**
+     * turns on editor mode
+     * @param type $id is the mode on or off
+     */
+    public function editor($id) {
+        session_start();
+        $_SESSION['editor'] = $id;
+        header('Location: /roster');
+    }
+    
     
     /**
      * shows a singler player
