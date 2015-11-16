@@ -34,12 +34,13 @@ class Roster extends Application {
         
         //Config for pagination stuff
         $config['base_url'] = base_url().'/roster/';
-        $config["total_rows"] = $num_players;
+        $config['total_rows'] = $num_players - 1;
         $config['per_page'] = 12;
         $config['use_page_numbers']  = TRUE;
         $config['page_query_string'] = FALSE;
-        
-        //Bootstrap pagination controls
+
+       
+        //Jason's nice styling
         $config['full_tag_open'] = "<ul class='pagination'>";
         $config['full_tag_close'] ="</ul>";
         $config['num_tag_open'] = '<li>';
@@ -53,9 +54,7 @@ class Roster extends Application {
         $config['first_tag_open'] = "<li>";
         $config['first_tagl_close'] = "</li>";
         $config['last_tag_open'] = "<li>";
-        $config['last_tagl_close'] = "</li>";   
-        
-        //Add links for first/last/next/previous
+        $config['last_tagl_close'] = "</li>"; 
         $config['first_link'] = 'First';
         $config['last_link'] = 'Last';
         $config['next_link'] = 'Next';
@@ -79,7 +78,12 @@ class Roster extends Application {
 
         //Add each player to a row for displaying and headers
         $this->table->set_heading("", "Player", "Number", "Position");
-        for($i = $id; $i <= $id + 12 && $i < $num_players; $i++) {
+        
+        if($id != 0){
+            $id = ($id - 1) * 12;
+        }
+        
+        for($i = $id; $i < $id + 12 && $i < $num_players; $i++) {
             $player = $players[$i];
             $this->table->add_row( '<img height = "40" src="../assets/images/'.$player["mugshot"].'">',$player["firstname"]. " " . $player["surname"], $player["number"], $player["position"]);
         }
