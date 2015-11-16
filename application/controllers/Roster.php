@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * This is the roster controller. It gets every player on the team from the 
  * rosters model and sends it to the view.
  *
- * @author Adam
+ * @author Jason
  */
 class Roster extends Application {
     /*
@@ -24,17 +24,42 @@ class Roster extends Application {
         //add the table helper
         $this->load->library('table');
         //added pagination class
-        $this->load->library('pagination');
+        $this->load->library('pagination'); 
         
+        //Fix bootstrap not loading
+        $this->data['basic_url'] = base_url();
         
-        $config['base_url'] = base_url().'/roster/page/';
-        $config['total_rows'] = count($players);
+        //Count number of players for pagination calcs
+        $num_players = count($players);
+        
+        //Config for pagination stuff
+        $config['base_url'] = base_url().'/roster/';
+        $config["total_rows"] = $num_players;
         $config['per_page'] = 12;
+        $config['use_page_numbers']  = TRUE;
+        $config['page_query_string'] = FALSE;
         
+        //Bootstrap pagination controls
+        $config['full_tag_open'] = "<ul class='pagination'>";
+        $config['full_tag_close'] ="</ul>";
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+        $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+        $config['next_tag_open'] = "<li>";
+        $config['next_tagl_close'] = "</li>";
+        $config['prev_tag_open'] = "<li>";
+        $config['prev_tagl_close'] = "</li>";
+        $config['first_tag_open'] = "<li>";
+        $config['first_tagl_close'] = "</li>";
+        $config['last_tag_open'] = "<li>";
+        $config['last_tagl_close'] = "</li>";   
         
-        
-        $config['num_links'] = count($players)/5 + 1;
-        
+        //Add links for first/last/next/previous
+        $config['first_link'] = 'First';
+        $config['last_link'] = 'Last';
+        $config['next_link'] = 'Next';
+        $config['prev_link'] = 'Previous';
         
         $this->pagination->initialize($config);
 
@@ -54,7 +79,7 @@ class Roster extends Application {
 
         //Add each player to a row for displaying and headers
         $this->table->set_heading("", "Player", "Number", "Position");
-        for($i = $id; $i <= $id + 12; $i++) {
+        for($i = $id; $i <= $id + 12 && $i < $num_players; $i++) {
             $player = $players[$i];
             $this->table->add_row( '<img height = "40" src="../assets/images/'.$player["mugshot"].'">',$player["firstname"]. " " . $player["surname"], $player["number"], $player["position"]);
         }
