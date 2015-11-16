@@ -10,7 +10,7 @@
 <br /><br />
 <div>
     {players}
-    <div class="roster-cell">
+    <div class="roster-cell col-md-3">
         <a href="/player/view/{id}"><img height = "80" src="../assets/images/players/{mugshot}" title="{surname}"/></a>
         <p>{surname}, {firstname}</p>
     </div>
