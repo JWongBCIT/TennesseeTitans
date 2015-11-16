@@ -4,5 +4,6 @@
 <script src="{basic_url}/assets/js/bootstrap.min.js"></script>
 
 {table-head}
+{add_player}
 {roster}
 {links}
