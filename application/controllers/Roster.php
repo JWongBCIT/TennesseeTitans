@@ -144,7 +144,7 @@ class Roster extends Application {
         for ($i = $id; $i < $id + 12 && $i < $num_players; $i++) {
             $player = $players[$i];
             array_push($galleryPlayers, $players[$i]);
-            $this->table->add_row('<img height = "40" src="../assets/images/players/' . $player["mugshot"] . '">', $player["firstname"] . " " . $player["surname"], $player["number"], $player["position"]);
+            $this->table->add_row('<a href="/roster/player/'. $player["id"] .'"><img height = "40" src="../assets/images/players/' . $player["mugshot"] . '"></a>', $player["firstname"] . " " . $player["surname"], $player["number"], $player["position"]);
         }
 
         //Set facade
@@ -168,16 +168,35 @@ class Roster extends Application {
         }
     }
 
+    /**
+     * toggles from gallery to table
+     * @param type $id is either gallery or table
+     */
     public function toggle($id){
         session_start();
         $_SESSION['viewState'] = $id;
         header('Location: /roster');
     }
     
+    /**
+     * id holds the type type of ordering to order the table or gallery
+     * @param type $id
+     */
     public function order($id) {
         session_start();
         $_SESSION['orderBy'] = $id;
         header('Location: /roster');
+    }
+    
+    /**
+     * shows a singler player
+     * @param type $id is the id of the player
+     */
+    public function player($id){
+        $player = $this->rosters->get($id);
+        $this->data['player'] = $player;
+        $this->data['pagebody'] = 'player';
+        $this->render();
     }
 
 }
