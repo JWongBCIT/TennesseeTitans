@@ -37,12 +37,24 @@ class Roster extends Application {
             $_SESSION['orderBy'] = 'name';
         }
 
+        if (isset($_SESSION['viewState']) == FALSE) {
+            $_SESSION['viewState'] = 'table';
+        }
+        
         $players = $this->rosters->all();
 
         $name = "";
         $number = "";
         $position = "";
-
+        $table = "";
+        $gallery = "";
+               
+        if ($_SESSION['viewState'] == 'table') {
+            $table = "active";
+        } else if ($_SESSION['viewState'] == 'gallery') {
+            $gallery = "active";
+        }
+        
 
         if ($_SESSION['orderBy'] == 'name') {
             $name = "active";
@@ -104,14 +116,19 @@ class Roster extends Application {
 
         //set the table to use the bootstrap template
         $this->table->set_template($parms);
-
+//
         //Create table heading 
         $this->table->set_heading('<div style="text-align:center;">Tennessee Titans Roster - 2015</div>', '<div class="btn-group">
             <a href="' . base_url() . 'roster/order/name" class="btn btn-primary ' . $name . '">Name</a>
             <a href="' . base_url() . 'roster/order/number" class="btn btn-primary ' . $number . '">Number</a>
             <a href="' . base_url() . 'roster/order/position" class="btn btn-primary ' . $position . '">Position</a>
+        </div>',
+                '<div class="btn-group">
+            <a href="' . base_url() . 'roster/toggle/table" class="btn btn-primary ' . $table . '">Table View</a>
+            <a href="' . base_url() . 'roster/toggle/gallery" class="btn btn-primary ' . $gallery . '">Gallery View</a>
         </div>'
         );
+        
         $this->data['table-head'] = $this->table->generate();
         $this->table->clear();
 
@@ -122,9 +139,12 @@ class Roster extends Application {
             $id = ($id - 1) * 12;
         }
 
+        $galleryPlayers = array();
+        
         for ($i = $id; $i < $id + 12 && $i < $num_players; $i++) {
             $player = $players[$i];
-            $this->table->add_row('<img height = "40" src="../assets/images/' . $player["mugshot"] . '">', $player["firstname"] . " " . $player["surname"], $player["number"], $player["position"]);
+            array_push($galleryPlayers, $players[$i]);
+            $this->table->add_row('<img height = "40" src="assets/images/players/' . $player["mugshot"] . '">', $player["firstname"] . " " . $player["surname"], $player["number"], $player["position"]);
         }
 
         //Set facade
@@ -136,11 +156,24 @@ class Roster extends Application {
         //order
         $this->data['order'] = $_SESSION['orderBy'];
 
-        //render the page
-        $this->data['pagebody'] = 'roster';
-        $this->render();
+        //if gallery is selected, render the gallery view
+        if($_SESSION['viewState'] == 'gallery'){
+            $this->data['players'] = $galleryPlayers;
+            $this->data['pagebody'] = 'rosterGallery';
+            $this->render();
+        }else {
+            //else render the table page
+            $this->data['pagebody'] = 'roster';
+            $this->render();
+        }
     }
 
+    public function toggle($id){
+        session_start();
+        $_SESSION['viewState'] = $id;
+        header('Location: /roster');
+    }
+    
     public function order($id) {
         session_start();
         $_SESSION['orderBy'] = $id;
