@@ -9,8 +9,8 @@
 <div>
     {players}
     <div class="roster-cell col-md-3">
-        <a href="/roster/player/{id}"><img height = "80" src="../assets/images/players/{mugshot}" title="{surname}"/></a>
-        <p style="margin-bottom: 2em">#{number} - {surname}, {firstname}</p>
+        <img height = "80" src="../assets/images/players/{mugshot}" title="{surname}"/>
+        <p style="margin-bottom: 2em">#{number} -  <a href="/roster/player/{id}">{surname}, {firstname}</a></p>
     </div>
     {/players}
 </div>

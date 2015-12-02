@@ -14,7 +14,7 @@ function cmpPosition($a, $b) {
     return strcmp($a['position'], $b['position']);
 }
 
-/*50em
+/* 50em
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -31,6 +31,8 @@ class Roster extends Application {
      * The index method for /roster
      */
 
+    public $errors = array();
+
     public function index($id = 0) {
         session_start();
         if (isset($_SESSION['orderBy']) == FALSE) {
@@ -40,11 +42,11 @@ class Roster extends Application {
         if (isset($_SESSION['viewState']) == FALSE) {
             $_SESSION['viewState'] = 'table';
         }
-        
+
         if (isset($_SESSION['editor']) == FALSE) {
             $_SESSION['editor'] = 'off';
         }
-        
+
         $players = $this->rosters->all();
 
         $name = "";
@@ -54,13 +56,13 @@ class Roster extends Application {
         $gallery = "";
         $editorOn = "";
         $editorOff = "";
-               
+
         if ($_SESSION['viewState'] == 'table') {
             $table = "active";
         } else if ($_SESSION['viewState'] == 'gallery') {
             $gallery = "active";
         }
-        
+
         if ($_SESSION['editor'] == 'on') {
             $editorOn = "active";
         } else if ($_SESSION['editor'] == 'off') {
@@ -133,38 +135,36 @@ class Roster extends Application {
             <a href="' . base_url() . 'roster/order/name" class="btn btn-primary ' . $name . '">Name</a>
             <a href="' . base_url() . 'roster/order/number" class="btn btn-primary ' . $number . '">Number</a>
             <a href="' . base_url() . 'roster/order/position" class="btn btn-primary ' . $position . '">Position</a>
-        </div>',
-        '<div class="btn-group">
+        </div>', '<div class="btn-group">
             <a href="' . base_url() . 'roster/toggle/table" class="btn btn-primary ' . $table . '">Table View</a>
             <a href="' . base_url() . 'roster/toggle/gallery" class="btn btn-primary ' . $gallery . '">Gallery View</a>
-        </div>',
-        '<div class="btn-group">
+        </div>', '<div class="btn-group">
             <a href="' . base_url() . 'roster/editor/on" class="btn btn-primary ' . $editorOn . '">Edit</a>
             <a href="' . base_url() . 'roster/editor/off" class="btn btn-primary ' . $editorOff . '">Edit Off</a>
         </div>'
         );
-        
+
         $this->data['add_player'] = "";
-        if($_SESSION['editor'] == 'on'){
+        if ($_SESSION['editor'] == 'on') {
             $this->data['add_player'] = '<a href="/Player/add" id="player_add_button" class="btn btn-info" role="button">Add Player</a>';
         }
-        
+
         $this->data['table-head'] = $this->table->generate();
         $this->table->clear();
 
         //Add each player to a row for displaying and headers
-        $this->table->set_heading("", "Player", "Number", "Position");
+        $this->table->set_heading("Player", "Number", "Position");
 
         if ($id != 0) {
             $id = ($id - 1) * 12;
         }
 
         $galleryPlayers = array();
-        
+
         for ($i = $id; $i < $id + 12 && $i < $num_players; $i++) {
             $player = $players[$i];
             array_push($galleryPlayers, $players[$i]);
-            $this->table->add_row('<a href="/roster/player/'. $player["id"] .'"><img height = "40" src="../assets/images/players/' . $player["mugshot"] . '"></a>', $player["firstname"] . " " . $player["surname"], $player["number"], $player["position"]);
+            $this->table->add_row('<a href="/roster/player/' . $player["id"] . '">' . $player["firstname"] . " " . $player["surname"] . '</a>', $player["number"], $player["position"]);
         }
 
         //Set facade
@@ -177,11 +177,11 @@ class Roster extends Application {
         $this->data['order'] = $_SESSION['orderBy'];
 
         //if gallery is selected, render the gallery view
-        if($_SESSION['viewState'] == 'gallery'){
+        if ($_SESSION['viewState'] == 'gallery') {
             $this->data['players'] = $galleryPlayers;
             $this->data['pagebody'] = 'rosterGallery';
             $this->render();
-        }else {
+        } else {
             //else render the table page
             $this->data['pagebody'] = 'roster';
             $this->render();
@@ -192,12 +192,12 @@ class Roster extends Application {
      * toggles from gallery to table
      * @param type $id is either gallery or table
      */
-    public function toggle($id){
+    public function toggle($id) {
         session_start();
         $_SESSION['viewState'] = $id;
         header('Location: /roster');
     }
-    
+
     /**
      * id holds the type type of ordering to order the table or gallery
      * @param type $id
@@ -207,8 +207,7 @@ class Roster extends Application {
         $_SESSION['orderBy'] = $id;
         header('Location: /roster');
     }
-    
-    
+
     /**
      * turns on editor mode
      * @param type $id is the mode on or off
@@ -218,17 +217,93 @@ class Roster extends Application {
         $_SESSION['editor'] = $id;
         header('Location: /roster');
     }
-    
-    
+
     /**
-     * shows a singler player
+     * shows a singler player. shows edit player if edit mode active
      * @param type $id is the id of the player
      */
-    public function player($id){
-        $player = $this->rosters->get($id);
-        $this->data['player'] = $player;
-        $this->data['pagebody'] = 'player';
+    public function player($id) {
+        session_start();
+
+        if ($_SESSION['editor'] == 'on') {
+            //Display and edit
+            // format any errors
+            $message = '';
+            if (count($this->errors) > 0) {
+                foreach ($this->errors as $booboo)
+                    $message .= $booboo . '<BR>';
+            }
+            $this->data['message'] = $message;
+            $this->load->helper('formfields');
+            $this->load->helper('form');
+            $player = $this->rosters->get($id);
+            $this->data['pagebody'] = 'playerEdit';
+            $this->data['fid'] = makeTextField('ID', 'id', $player->id);
+            $this->data['fsurname'] = makeTextField('Surname', 'surname', $player->surname);
+            $this->data['ffirstname'] = makeTextField('Firstname', 'firstname', $player->firstname);
+            $this->data['fnumber'] = makeTextField('Number', 'number', $player->number);
+            $this->data['fposition'] = makeTextField('Position', 'position', $player->position);
+            $this->data['fmugshot'] = makeTextField('Mugshot', 'mugshot', $player->mugshot);
+            $this->data['fsubmit'] = makeSubmitButton('Update Player', "Click here to validate player information", 'btn-success');
+            $this->data['fcancel'] = makeSubmitButton('Cancel', "Click here to cancel", 'btn-warning');
+            $this->data['fdelete'] = makeSubmitButton('Delete', "Click here to cdelete this player", 'btn-danger');
+            $this->data['delId'] = form_input(array('name' => 'delId', 'type'=>'hidden', 'id' =>'delId', 'value' => $player->id));
+
+        } else {
+            //Display only
+            $this->data = array_merge($this->data, (array) $this->rosters->get($id));
+            $this->data['pagebody'] = 'player';
+        }
         $this->render();
     }
 
+    public function update() {
+        $record = $this->rosters->create();
+        // Extract submitted fields
+
+        $record->id = $this->input->post('id');
+        $record->surname = $this->input->post('surname');
+        $record->firstname = $this->input->post('firstname');
+        $record->number = $this->input->post('number');
+        $record->position = $this->input->post('position');
+        $record->mugshot = $this->input->post('mugshot');
+
+        if (empty($record->surname))
+            $this->errors[] = 'You must specify a last name.';
+        if (empty($record->firstname))
+            $this->errors[] = 'You must specify a first name.';
+
+        if (!is_null($this->rosters->some('number', $record->number))) {
+            $player = $this->rosters->some('number', $record->number)[0];
+            if ($player->id != $record->id)
+                $this->errors[] = 'Jersey number already exists.';
+        }
+
+        if($record->position != 'C' && $record->position != 'CB' && $record->position != 'DB' && $record->position != 'DE' &&
+        $record->position != 'DL' && $record->position != 'DT' && $record->position != 'FB' && $record->position != 'G' &&
+        $record->position != 'K' && $record->position != 'LB' && $record->position != 'LS' && $record->position != 'MLB' &&
+        $record->position != 'NT' && $record->position != 'OLB' && $record->position != 'P' && $record->position != 'QB' &&
+        $record->position != 'RB' && $record->position != 'S' && $record->position != 'T' && $record->position != 'TE' &&
+        $record->position != 'WR') {
+            $this->errors[] = 'Invalid position.';
+        }
+
+
+        if (count($this->errors) > 0) {
+            $this->player($record->id);
+            return; // make sure we don't try to save anything
+        }
+
+        $this->rosters->update($record);
+        redirect('/roster');
+    }
+
+    public function cancel() {
+        redirect('/roster');
+    }
+
+    public function delete() {
+        $this->rosters->delete($this->input->post('delId'));
+        redirect('/roster');
+    }    
 }
