@@ -3,10 +3,9 @@
 <script src="../../assets/js/jquery-1.11.3.min.js"></script>
 <script src="../../assets/js/bootstrap.min.js"></script>
 <div style="width:540px; margin-left: auto; margin-right: auto;">
-    {player}
     <div>
         <a href="/roster/player/{id}"><img height="300"  src="../../assets/images/players/{mugshot}" title="{surname}"/></a>
         <p style="margin: 2em; text-align: center">#{number} - {surname}, {firstname}</p>
+        <p style="margin: 2em; text-align: center">Position: {position}</p>
     </div>
-    {/player}
 </div>
