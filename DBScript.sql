@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS `league`;
 CREATE TABLE IF NOT EXISTS `league` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(64) NOT NULL,
+    `code` varchar(3) NOT NULL,
     `city` varchar(64) NOT NULL,
     `conference` varchar(64) NOT NULL,
     `division` varchar(64) NOT NULL,
@@ -9,46 +10,46 @@ CREATE TABLE IF NOT EXISTS `league` (
     PRIMARY KEY (id)
 );
 
-INSERT INTO `league` (`name`,`city`,`conference`, `division`, `filename`) VALUES
-('Buffalo Bills', 'Buffalo', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
-('Miami Dolphins', 'Miami', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
-('New England Patriots', 'New England', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
-('New York Jets', 'New York', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
+INSERT INTO `league` (`name`,`code`,`city`,`conference`, `division`, `filename`) VALUES
+('Buffalo Bills', 'BUF','Buffalo', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
+('Miami Dolphins', 'MIA', 'Miami', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
+('New England Patriots', 'NE', 'New England', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
+('New York Jets', 'NYJ', 'New York', 'American Football Conference', 'AFC East', 'AFC_East.jpg'),
 
-('Baltimore Ravens', 'Baltimore', 'American Football Conference', 'AFC North', 'AFC_North.jpg'),
-('Cincinnati Bengals', 'Cincinnati', 'American Football Conference', 'AFC North', 'AFC_North.jpg'),
-('Cleveland Browns', 'Cleveland', 'American Football Conference', 'AFC North', 'AFC_North.jpg'),
-('Pittsburgh Steelers', 'Pittsburgh', 'American Football Conference', 'AFC North', 'AFC_North.jpg'),
+('Baltimore Ravens', 'BAL', 'Baltimore', 'American Football Conference', 'AFC North', 'AFC_North.jpg'),
+('Cincinnati Bengals', 'CIN', 'Cincinnati', 'American Football Conference', 'AFC North', 'AFC_North.jpg'),
+('Cleveland Browns', 'CLE', 'Cleveland', 'American Football Conference', 'AFC North', 'AFC_North.jpg'),
+('Pittsburgh Steelers', 'PIT', 'Pittsburgh', 'American Football Conference', 'AFC North', 'AFC_North.jpg'),
 
-('Houston Texans', 'Houston', 'American Football Conference', 'AFC South', 'AFC_South.jpg'),
-('Indianapolis Colts', 'Indianapolis', 'American Football Conference', 'AFC South', 'AFC_South.jpg'),
-('Jacksonville Jaguars', 'Jacksonville', 'American Football Conference', 'AFC South', 'AFC_South.jpg'),
-('Tennessee Titans', 'Tennessee', 'American Football Conference', 'AFC South', 'AFC_South.jpg'),
+('Houston Texans', 'HOU', 'Houston', 'American Football Conference', 'AFC South', 'AFC_South.jpg'),
+('Indianapolis Colts', 'IND', 'Indianapolis', 'American Football Conference', 'AFC South', 'AFC_South.jpg'),
+('Jacksonville Jaguars', 'JAC', 'Jacksonville', 'American Football Conference', 'AFC South', 'AFC_South.jpg'),
+('Tennessee Titans', 'TEN', 'Tennessee', 'American Football Conference', 'AFC South', 'AFC_South.jpg'),
 
-('Denver Broncos', 'Denver', 'American Football Conference', 'AFC West', 'AFC_West.jpg'),
-('Kansas City Chiefs', 'Kansas City', 'American Football Conference', 'AFC West', 'AFC_West.jpg'),
-('Oakland Raiders', 'Oakland', 'American Football Conference', 'AFC West', 'AFC_West.jpg'),
-('San Diego Chargers', 'San Diego', 'American Football Conference', 'AFC West', 'AFC_West.jpg'),
+('Denver Broncos', 'DEN', 'Denver', 'American Football Conference', 'AFC West', 'AFC_West.jpg'),
+('Kansas City Chiefs', 'KC', 'Kansas City', 'American Football Conference', 'AFC West', 'AFC_West.jpg'),
+('Oakland Raiders', 'OAK', 'Oakland', 'American Football Conference', 'AFC West', 'AFC_West.jpg'),
+('San Diego Chargers', 'SD', 'San Diego', 'American Football Conference', 'AFC West', 'AFC_West.jpg'),
 
-('Dallas Cowboys', 'Dallas', 'National Football Conference', 'NFC East', 'NFC_East.jpg'),
-('New York Giants', 'New York', 'National Football Conference', 'NFC East', 'NFC_East.jpg'),
-('Philadelphia Eagles', 'Philadelphia', 'National Football Conference', 'NFC East', 'NFC_East.jpg'),
-('Washington Redskins', 'Washington', 'National Football Conference', 'NFC East', 'NFC_East.jpg'),
+('Dallas Cowboys', 'DAL', 'Dallas', 'National Football Conference', 'NFC East', 'NFC_East.jpg'),
+('New York Giants', 'NYG', 'New York', 'National Football Conference', 'NFC East', 'NFC_East.jpg'),
+('Philadelphia Eagles', 'PHI', 'Philadelphia', 'National Football Conference', 'NFC East', 'NFC_East.jpg'),
+('Washington Redskins', 'WAS', 'Washington', 'National Football Conference', 'NFC East', 'NFC_East.jpg'),
 
-('Chicago Bears', 'Chicago', 'National Football Conference', 'NFC North', 'NFC_North.jpg'),
-('Detroit Lions', 'Detroit', 'National Football Conference', 'NFC North', 'NFC_North.jpg'),
-('Green Bay Packers', 'Green Bay', 'National Football Conference', 'NFC North', 'NFC_North.jpg'),
-('Minnesota Vikings', 'Minnesota', 'National Football Conference', 'NFC North', 'NFC_North.jpg'),
+('Chicago Bears', 'CHI', 'Chicago', 'National Football Conference', 'NFC North', 'NFC_North.jpg'),
+('Detroit Lions', 'DET', 'Detroit', 'National Football Conference', 'NFC North', 'NFC_North.jpg'),
+('Green Bay Packers', 'GB', 'Green Bay', 'National Football Conference', 'NFC North', 'NFC_North.jpg'),
+('Minnesota Vikings', 'MIN', 'Minnesota', 'National Football Conference', 'NFC North', 'NFC_North.jpg'),
 
-('Atlanta Falcons', 'Atlanta', 'National Football Conference', 'NFC South', 'NFC_South.jpg'),
-('Carolina Panthers', 'Carolina', 'National Football Conference', 'NFC South', 'NFC_South.jpg'),
-('New Orleans Saints', 'New Orleans', 'National Football Conference', 'NFC South', 'NFC_South.jpg'),
-('Tampa Bay Buccaneers', 'Tampa Bay', 'National Football Conference', 'NFC South', 'NFC_South.jpg'),
+('Atlanta Falcons', 'ATL', 'Atlanta', 'National Football Conference', 'NFC South', 'NFC_South.jpg'),
+('Carolina Panthers', 'CAR', 'Carolina', 'National Football Conference', 'NFC South', 'NFC_South.jpg'),
+('New Orleans Saints', 'NO', 'New Orleans', 'National Football Conference', 'NFC South', 'NFC_South.jpg'),
+('Tampa Bay Buccaneers', 'TB', 'Tampa Bay', 'National Football Conference', 'NFC South', 'NFC_South.jpg'),
 
-('Arizona Cardinals', 'Arizona', 'National Football Conference', 'NFC West', 'NFC_West.jpg'),
-('San Francisco 49ers', 'San Francisco', 'National Football Conference', 'NFC West', 'NFC_West.jpg'),
-('Seattle Seahawks', 'Seattle', 'National Football Conference', 'NFC West', 'NFC_West.jpg'),
-('St. Louis Rams', 'St. Louis', 'National Football Conference', 'NFC West', 'NFC_West.jpg');
+('Arizona Cardinals', 'ARI', 'Arizona', 'National Football Conference', 'NFC West', 'NFC_West.jpg'),
+('San Francisco 49ers', 'SF', 'San Francisco', 'National Football Conference', 'NFC West', 'NFC_West.jpg'),
+('Seattle Seahawks', 'SEA', 'Seattle', 'National Football Conference', 'NFC West', 'NFC_West.jpg'),
+('St. Louis Rams', 'STL', 'St. Louis', 'National Football Conference', 'NFC West', 'NFC_West.jpg');
 
 DROP TABLE IF EXISTS `roster`;
 CREATE TABLE IF NOT EXISTS `roster` (
