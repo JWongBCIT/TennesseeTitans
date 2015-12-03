@@ -5,6 +5,7 @@
 
 {table-head}
 {add_player}
+{add_mugshot}
 <br /><br />
 <div>
     {players}
