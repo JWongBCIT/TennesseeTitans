@@ -144,11 +144,12 @@ class Roster extends Application {
         </div>'
         );
 
-        $this->data['add_player'] = "";
+        $this->data['add_player'] = '';
+        $this->data['add_mugshot'] = '';
         if ($_SESSION['editor'] == 'on') {
-            $this->data['add_player'] = '<a href="/Player/add" id="player_add_button" class="btn btn-info" role="button">Add Player</a>';
+            $this->data['add_player'] = '<a href="/Roster/add" id="player_add_button" class="btn btn-info" role="button">Add Player</a>';
+            $this->data['add_mugshot'] = '<a href="/Roster/addMugshot" id="mugshot_add_button" class="btn btn-info" role="button">Upload Mugshot</a>';
         }
-
         $this->data['table-head'] = $this->table->generate();
         $this->table->clear();
 
@@ -247,8 +248,7 @@ class Roster extends Application {
             $this->data['fsubmit'] = makeSubmitButton('Update Player', "Click here to validate player information", 'btn-success');
             $this->data['fcancel'] = makeSubmitButton('Cancel', "Click here to cancel", 'btn-warning');
             $this->data['fdelete'] = makeSubmitButton('Delete', "Click here to cdelete this player", 'btn-danger');
-            $this->data['delId'] = form_input(array('name' => 'delId', 'type'=>'hidden', 'id' =>'delId', 'value' => $player->id));
-
+            $this->data['delId'] = form_input(array('name' => 'delId', 'type' => 'hidden', 'id' => 'delId', 'value' => $player->id));
         } else {
             //Display only
             $this->data = array_merge($this->data, (array) $this->rosters->get($id));
@@ -279,12 +279,12 @@ class Roster extends Application {
                 $this->errors[] = 'Jersey number already exists.';
         }
 
-        if($record->position != 'C' && $record->position != 'CB' && $record->position != 'DB' && $record->position != 'DE' &&
-        $record->position != 'DL' && $record->position != 'DT' && $record->position != 'FB' && $record->position != 'G' &&
-        $record->position != 'K' && $record->position != 'LB' && $record->position != 'LS' && $record->position != 'MLB' &&
-        $record->position != 'NT' && $record->position != 'OLB' && $record->position != 'P' && $record->position != 'QB' &&
-        $record->position != 'RB' && $record->position != 'S' && $record->position != 'T' && $record->position != 'TE' &&
-        $record->position != 'WR') {
+        if ($record->position != 'C' && $record->position != 'CB' && $record->position != 'DB' && $record->position != 'DE' &&
+                $record->position != 'DL' && $record->position != 'DT' && $record->position != 'FB' && $record->position != 'G' &&
+                $record->position != 'K' && $record->position != 'LB' && $record->position != 'LS' && $record->position != 'MLB' &&
+                $record->position != 'NT' && $record->position != 'OLB' && $record->position != 'P' && $record->position != 'QB' &&
+                $record->position != 'RB' && $record->position != 'S' && $record->position != 'T' && $record->position != 'TE' &&
+                $record->position != 'WR') {
             $this->errors[] = 'Invalid position.';
         }
 
@@ -305,5 +305,107 @@ class Roster extends Application {
     public function delete() {
         $this->rosters->delete($this->input->post('delId'));
         redirect('/roster');
-    }    
+    }
+
+    public function add() {
+        // format any errors
+        $message = '';
+        if (count($this->errors) > 0) {
+            foreach ($this->errors as $booboo)
+                $message .= $booboo . '<BR>';
+        }
+        $this->data['message'] = $message;
+        $this->load->helper('formfields');
+        $this->data['pagebody'] = 'addPlayer';
+        $this->data['fid'] = makeTextField('ID', 'id', '');
+        $this->data['fsurname'] = makeTextField('Surname', 'surname', '');
+        $this->data['ffirstname'] = makeTextField('Firstname', 'firstname', '');
+        $this->data['fnumber'] = makeTextField('Number', 'number', '');
+        $this->data['fposition'] = makeTextField('Position', 'position', '');
+        $this->data['fmugshot'] = makeTextField('Mugshot', 'mugshot', '');
+        $this->data['fsubmit'] = makeSubmitButton('Add Player', "Click here to validate player information", 'btn-success');
+        $this->data['fcancel'] = makeSubmitButton('Cancel', "Click here to cancel", 'btn-warning');
+        $this->render();
+    }
+
+    public function addPlayer() {
+        $record = $this->rosters->create();
+        // Extract submitted fields
+
+        $record->id = $this->input->post('id');
+        $record->surname = $this->input->post('surname');
+        $record->firstname = $this->input->post('firstname');
+        $record->number = $this->input->post('number');
+        $record->position = $this->input->post('position');
+        $record->mugshot = $this->input->post('mugshot');
+
+        if (!is_null($this->rosters->get($record->id)))
+            $this->errors[] = 'That ID is already being used.';
+        if (empty($record->id))
+            $this->errors[] = 'You absolutely must specify an ID.';
+        if (empty($record->surname))
+            $this->errors[] = 'You must specify a last name.';
+        if (empty($record->firstname))
+            $this->errors[] = 'You must specify a first name.';
+
+
+
+        if ($record->position != 'C' && $record->position != 'CB' && $record->position != 'DB' && $record->position != 'DE' &&
+                $record->position != 'DL' && $record->position != 'DT' && $record->position != 'FB' && $record->position != 'G' &&
+                $record->position != 'K' && $record->position != 'LB' && $record->position != 'LS' && $record->position != 'MLB' &&
+                $record->position != 'NT' && $record->position != 'OLB' && $record->position != 'P' && $record->position != 'QB' &&
+                $record->position != 'RB' && $record->position != 'S' && $record->position != 'T' && $record->position != 'TE' &&
+                $record->position != 'WR') {
+            $this->errors[] = 'Invalid position.';
+        }
+
+
+        if (count($this->errors) > 0) {
+            $this->add();
+            return; // make sure we don't try to save anything
+        }
+
+        $this->rosters->add($record);
+        redirect('/roster');
+    }
+
+    public function addMugshot() {
+        $this->errors[] = '';
+        $this->data['basic_url'] = base_url();
+        $this->load->helper('form');
+        $this->data['formOpen'] = form_open_multipart('roster/do_upload');
+        
+        $message = '';
+        if (count($this->errors) > 0) {
+            foreach ($this->errors as $booboo)
+                $message .= $booboo . '<BR>';
+        }
+        $this->data['message'] = $message;
+        
+        $this->data['pagebody'] = 'addMugshot';
+        $this->render();
+    }
+
+    public function do_upload() {
+        $this->load->library('upload');
+        $this->data['basic_url'] = base_url();
+        $config['upload_path'] = 'assets/images/players/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '1000';
+        $config['max_width'] = '1024';
+        $config['max_height'] = '768';
+
+        $this->load->library('upload');
+        $this->upload->initialize($config);
+
+        if (!$this->upload->do_upload()) {
+            
+            $this->errors = array('error' => $this->upload->display_errors());
+            $this->addMugShot();
+        } else {
+            $data = array('upload_data' => $this->upload->data());
+            redirect('/roster');
+        }
+    }
+
 }
