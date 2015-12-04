@@ -2,6 +2,13 @@
     <img src="../assets/images/titans_logo.gif">
 </div>
 
+<div style="width:575px; margin-left: auto; margin-right: auto;" >
+    <h4>Check predictions: </h4>
+    <form style="border: solid 1px gray">
+        {dropdown}
+    </form>
+</div>
+
 <p style="margin-top: 2em; font-size: 1.5em; width:575px; margin-left: auto; margin-right: auto; ">The Tennessee Titans are a professional American football team and one of the 32 franchises
      of the National Football League (NFL). Based in Nashville, Tennessee, the Titans are members
      of the South Division of the American Football Conference (AFC). Previously known as the 

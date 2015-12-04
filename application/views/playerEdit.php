@@ -2,22 +2,27 @@
 <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
 <script src="../../assets/js/jquery-1.11.3.min.js"></script>
 <script src="../../assets/js/bootstrap.min.js"></script>
-<div style="width:540px; margin-left: auto; margin-right: auto;">
+<div class="form-group" style="width:540px; margin-left: auto; margin-right: auto;">
     <div class="errors"> {message} </div>
     <form action="/roster/update" method="post">
-    {fid}
-    {fsurname}
-    {ffirstname}
-    {fnumber}
-    {fposition}
-    {fmugshot}
-    {fsubmit}
-  </form>
-    <form action="/roster/cancel" method="post">
-    {fcancel}
+        {fid}
+        {fsurname}
+        {ffirstname}
+        {fnumber}
+        {fposition}
+        {fmugshot}
+        {fsubmit}
     </form>
-    <form action="/roster/delete" method="post">
-    {delId}
-    {fdelete}
-    </form>
+    <br>
+    <span style="display: inline-block">
+        <form action="/roster/cancel" method="post">
+            {fcancel}
+        </form>
+    </span>
+    <span style="display: inline-block">
+        <form action="/roster/delete" method="post">
+            {delId}
+            {fdelete}
+        </form>
+    </span>
 </div>
