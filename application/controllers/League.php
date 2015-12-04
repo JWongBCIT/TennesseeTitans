@@ -17,7 +17,6 @@ class League extends Application {
 
         //Gets all the team in the leagues model
         //$teams = $this->leagues->all();
-
         //add the table helper
         $this->load->library('table');
         $img_path = 'assets/images/divisions/';
@@ -32,104 +31,50 @@ class League extends Application {
         //set the table to use the bootstrap template
         $this->table->set_template($parms);
 
-        //create a section for each conference
-        //AF Conference
-        $this->table->set_heading('American Football Conference - 2015 Regular Season');
-        $this->data['AFC'] = $this->table->generate();
+        $name = '';
+        $number = '';
+        $position = '';
+
+        $table = '';
+        $gallery = '';
+        $editorOn = '';
+        $editorOff = '';
+
+        //Create table heading 
+        $this->table->set_heading('<div style="text-align:center;">League - 2015</div>', '<div class="btn-group">
+            <a href="' . base_url() . 'league/order/city" class="btn btn-primary ' . $name . '">City</a>
+            <a href="' . base_url() . 'league/order/team" class="btn btn-primary ' . $number . '">Team</a>
+            <a href="' . base_url() . 'league/order/division" class="btn btn-primary ' . $position . '">Division</a>
+        </div>', '<div class="btn-group">
+            <a href="' . base_url() . 'league/toggle/league" class="btn btn-primary ' . $table . '">League View</a>
+            <a href="' . base_url() . 'league/toggle/conference" class="btn btn-primary ' . $gallery . '">Conference View</a>
+            <a href="' . base_url() . 'league/toggle/standings" class="btn btn-primary ' . $gallery . '">Standings View</a>    
+        </div>'
+        );
+        $this->data['toggleBar'] = $this->table->generate();
         $this->table->clear();
 
         //Create table for each team group
-        $teams = $this->leagues->getByDivision('AFC East');
-        $this->table->set_heading("AFC East Teams", "City", "Team Logo");
+        $teams = $this->leagues->all();
+        //var_dump($teams);
+        $this->table->set_heading("Team Name", "City", "Team Logo");
         foreach ($teams as $team) {
-            $temp_filename = $team['filename'];
-            $team['filename'] = $img_tagOpen . $img_path .$temp_filename . $img_tagClose;
-            $this->table->add_row($team);
+            $temp_filename = $team->filename;
+            $team->filename = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+            $this->table->add_row($team->name, $team->city, $team->filename);
         }
-        $this->data['AFC East'] = $this->table->generate();
-        $this->table->clear();
-        
-        $teams = $this->leagues->getByDivision('AFC North');
-        $this->table->set_heading("AFC North Teams", "City", "Team Logo");
-        foreach ($teams as $team) {
-            $temp_filename = $team['filename'];
-            $team['filename'] = $img_tagOpen . $img_path .$temp_filename . $img_tagClose;
-            $this->table->add_row($team);
-        }
-        $this->data['AFC North'] = $this->table->generate();
-        $this->table->clear();
-
-        $teams = $this->leagues->getByDivision('AFC South');
-        $this->table->set_heading("AFC South Teams", "City", "Team Logo");
-        foreach ($teams as $team) {
-            $temp_filename = $team['filename'];
-            $team['filename'] = $img_tagOpen . $img_path .$temp_filename . $img_tagClose;
-            $this->table->add_row($team);
-        }
-        $this->data['AFC South'] = $this->table->generate();
-        $this->table->clear();
-
-        $teams = $this->leagues->getByDivision('AFC West');
-        $this->table->set_heading("AFC West Teams", "City", "Team Logo");
-        foreach ($teams as $team) {
-            $temp_filename = $team['filename'];
-            $team['filename'] = $img_tagOpen . $img_path .$temp_filename . $img_tagClose;
-            $this->table->add_row($team);
-        }
-        $this->data['AFC West'] = $this->table->generate();
-        $this->table->clear();
-
-        //NF Conference
-
-        $this->table->set_heading('National Football Conference - 2015 Regular Season');
-        $this->data['NFC'] = $this->table->generate();
-        $this->table->clear();
-
-        //Create table for each team group
-        $teams = $this->leagues->getByDivision('NFC East');
-        $this->table->set_heading("NFC East Teams", "City", "Team Logo");
-        foreach ($teams as $team) {
-            $temp_filename = $team['filename'];
-            $team['filename'] = $img_tagOpen . $img_path .$temp_filename . $img_tagClose;
-            $this->table->add_row($team);
-        }
-        $this->data['NFC East'] = $this->table->generate();
-        $this->table->clear();
-
-        
-        $teams = $this->leagues->getByDivision('NFC North');
-        $this->table->set_heading("NFC North Teams", "City", "Team Logo");
-        foreach ($teams as $team) {
-            $temp_filename = $team['filename'];
-            $team['filename'] = $img_tagOpen . $img_path .$temp_filename . $img_tagClose;
-            $this->table->add_row($team);
-        }
-        $this->data['NFC North'] = $this->table->generate();
-        $this->table->clear();
-
-        $teams = $this->leagues->getByDivision('NFC South');
-        $this->table->set_heading("NFC South Teams", "City", "Team Logo");
-        foreach ($teams as $team) {
-            $temp_filename = $team['filename'];
-            $team['filename'] = $img_tagOpen . $img_path .$temp_filename . $img_tagClose;
-            $this->table->add_row($team);
-        }
-        $this->data['NFC South'] = $this->table->generate();
-        $this->table->clear();
-
-        $teams = $this->leagues->getByDivision('NFC West');
-        $this->table->set_heading("NFC West Teams", "City", "Team Logo");
-        foreach ($teams as $team) {
-            $temp_filename = $team['filename'];
-            $team['filename'] = $img_tagOpen . $img_path .$temp_filename . $img_tagClose;
-            $this->table->add_row($team);
-        }
-        $this->data['NFC West'] = $this->table->generate();
-        $this->table->clear();
-        
-        //render the page
+        $this->data['allTeams'] = $this->table->generate();
         $this->data['pagebody'] = 'league';
         $this->render();
     }
 
+        /**
+     * id holds the type type of ordering to order the table or gallery
+     * @param type $id
+     */
+    public function order($id) {
+        session_start();
+        $_SESSION['orderBy'] = $id;
+        header('Location: /roster');
+    }
 }
