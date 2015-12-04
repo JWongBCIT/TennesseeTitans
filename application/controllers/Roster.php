@@ -147,8 +147,8 @@ class Roster extends Application {
         $this->data['add_player'] = '';
         $this->data['add_mugshot'] = '';
         if ($_SESSION['editor'] == 'on') {
-            $this->data['add_player'] = '<a href="/Roster/add" id="player_add_button" class="btn btn-info" role="button">Add Player</a>';
-            $this->data['add_mugshot'] = '<a href="/Roster/addMugshot" id="mugshot_add_button" class="btn btn-info" role="button">Upload Mugshot</a>';
+            $this->data['add_player'] = '<a style="margin-bottom:1em" href="/Roster/add" id="player_add_button" class="btn btn-info" role="button">Add Player</a>';
+            $this->data['add_mugshot'] = '<a style="margin-bottom:1em" href="/Roster/addMugshot" id="mugshot_add_button" class="btn btn-info" role="button">Upload Mugshot</a>';
         }
         $this->data['table-head'] = $this->table->generate();
         $this->table->clear();

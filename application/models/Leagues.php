@@ -7,11 +7,11 @@
  *
  * @author adamh & jasonw
  */
-class Leagues extends CI_Model {
+class Leagues extends MY_Model {
 
     //constructor (a good practice)
     function __construct() {
-        parent::__construct();
+        parent::__construct('league');	
     }
 
     public function getByDivision($div) {

@@ -1,11 +1,13 @@
 <div style="width:545px; margin-left: auto; margin-right: auto;">
     <img src="../assets/images/titans_logo.gif">
 </div>
-
+<br>
 <div style="width:575px; margin-left: auto; margin-right: auto;" >
     <h4>Check predictions: </h4>
-    <form style="border: solid 1px gray">
+    <form>
         {dropdown}
+        <br>
+        <button type="submit" class="btn btn-default">Check!</button>
     </form>
 </div>
 
