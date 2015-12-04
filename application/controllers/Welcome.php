@@ -23,8 +23,24 @@ class Welcome extends Application {
      * @see http://codeigniter.com/user_guide/general/urls.html
      */
     public function index() {
-        
-        $this->data['dropdown'] = form_dropdown('shirts', $options, 'large');
+        $this->load->helper('form');
+        $options = array(
+            'BUF' => 'Buffalo Bills',
+            'MIA' => 'Miami Dolphins',
+            'NE' => 'New England Patriots',
+            'NYJ' => 'New York Jets',
+        );
+        $options = $this->leagues->all();
+        $teams = array();
+        $codes = array();
+        foreach ($options as $team) {
+            if ($team->name != 'Tennessee Titans' && $team->code != 'TEN') {
+                $teams = array_merge($teams, (array) $team->name);
+                $codes = array_merge($codes, (array) $team->code);
+            }
+        }
+        $finalOptions = array_combine($codes, $teams);
+        $this->data['dropdown'] = form_dropdown('teams', $finalOptions, '', 'class="form-control"');
         $this->data['pagebody'] = 'welcome';
         $this->render();
     }
