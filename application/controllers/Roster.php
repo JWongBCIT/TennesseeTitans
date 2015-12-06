@@ -24,7 +24,7 @@ function cmpPosition($a, $b) {
  * This is the roster controller. It gets every player on the team from the 
  * rosters model and sends it to the view.
  *
- * @author Jason
+ * @author Jason & Spero
  */
 class Roster extends Application {
     /*
