@@ -99,6 +99,13 @@ class League extends Application {
         $this->data['toggleBar'] = $this->table->generate();
         $this->table->clear();
         $this->data['allTeams2'] = '';
+        $this->data['allTeams3'] = '';
+        $this->data['allTeams4'] = '';
+        $this->data['allTeams5'] = '';
+        $this->data['allTeams6'] = '';
+        $this->data['allTeams7'] = '';
+        $this->data['allTeams8'] = '';
+        
         
         if($league == 'active'){
             //Create table for each team group
@@ -114,7 +121,7 @@ class League extends Application {
             $this->render();
         }else if ($conference == 'active') {
             $teams = $this->leagues->getByConference('American Football Conference');
-            $this->table->set_heading("American Football Conference<br>Team Name", "<br>City", "<br>Team Logo");
+            $this->table->set_heading("<h4>American Football Conference</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
                 $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
@@ -125,7 +132,7 @@ class League extends Application {
             $this->table->clear();
 
             $teams = $this->leagues->getByConference('National Football Conference');
-            $this->table->set_heading("National Football Conference<br>Team Name", "<br>City", "<br>Team Logo");
+            $this->table->set_heading("<h4>National Football Conference</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
                 $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
@@ -140,7 +147,100 @@ class League extends Application {
            
            
         }else if ($division == 'active') {
-            echo "d";
+            $teams = $this->leagues->getByDivision('AFC North');
+            $this->table->set_heading("<h4>AFC North</h4><br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            $this->data['allTeams'] = $this->table->generate();
+            
+            $this->table->clear();
+
+            $teams = $this->leagues->getByDivision('AFC South');
+            $this->table->set_heading("<h4>AFC South</h4><br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            
+            $this->data['allTeams2'] = $this->table->generate();
+            
+            $this->table->clear();
+            
+            $teams = $this->leagues->getByDivision('AFC East');
+            $this->table->set_heading("<h4>AFC East</h4><br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            
+            $this->data['allTeams3'] = $this->table->generate();
+            $this->table->clear();
+                        
+            $teams = $this->leagues->getByDivision('AFC West');
+            $this->table->set_heading("<h4>AFC West</h4><br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            
+            $this->data['allTeams4'] = $this->table->generate();
+            $this->table->clear();
+            
+            $teams = $this->leagues->getByDivision('NFC North');
+            $this->table->set_heading("<h4>NFC North</h4><br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            $this->data['allTeams5'] = $this->table->generate();
+            
+            $this->table->clear();
+
+            $teams = $this->leagues->getByDivision('NFC South');
+            $this->table->set_heading("<h4>NFC South</h4><br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            
+            $this->data['allTeams6'] = $this->table->generate();
+            
+            $teams = $this->leagues->getByDivision('NFC East');
+            $this->table->set_heading("<h4>NFC East</h4><br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            
+            $this->data['allTeams7'] = $this->table->generate();
+            $this->table->clear();
+                        
+            $teams = $this->leagues->getByDivision('NFC West');
+            $this->table->set_heading("<h4>NFC West</h4><br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            
+            $this->data['allTeams8'] = $this->table->generate();
+                    
+            
+            
+            
+            
+            //array_merge((array) $this->data['allTeams'], (array) $this->table->generate());
+            $this->data['pagebody'] = 'league';
+            $this->render();
         }
     }
 
