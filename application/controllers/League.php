@@ -3,11 +3,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 function cmpCity($a, $b) {
-    return strcmp($a->city, $b->city);
+return strcmp($a['city'], $b['city']);
 }
 
 function cmpName($a, $b) {
-    return strcmp($a->name, $b->name);
+    return strcmp($a['name'], $b['name']);
 }
 
 /**
@@ -27,14 +27,16 @@ class League extends Application {
         if (isset($_SESSION['league_OrderBy']) == FALSE) {
             $_SESSION['league_OrderBy'] = 'name';
         }
-        
+
         if (isset($_SESSION['league_ViewState']) == FALSE) {
             $_SESSION['league_ViewState'] = 'league';
         }
-        
+
         //Create table for each team group
         $teams = $this->leagues->all();
         
+        
+
         $name = '';
         $city = '';
         $standings = '';
@@ -42,29 +44,17 @@ class League extends Application {
         $league = '';
         $conference = '';
         $division = '';
-        
-        if ($_SESSION['league_OrderBy'] == 'name') {
-            $name = "active";
-            usort($teams, "cmpName");
-        } else if ($_SESSION['league_OrderBy'] == 'city') {
-            $city = "active";
-            usort($teams, "cmpCity");
-        } else if ($_SESSION['league_OrderBy'] == 'standings') {
-            $standings = "active";
-           // usort($players, "cmpPosition");
-        }
-        
-        
-         if ($_SESSION['league_ViewState'] == 'league') {
+
+        if ($_SESSION['league_ViewState'] == 'league') {
             $league = "active";
         } else if ($_SESSION['league_ViewState'] == 'conference') {
             $conference = "active";
         } else if ($_SESSION['league_ViewState'] == 'division') {
             $division = "active";
         }
-        
-        
-        
+
+
+
         //Gets all the team in the leagues model
         //$teams = $this->leagues->all();
         //add the table helper
@@ -72,7 +62,7 @@ class League extends Application {
         $img_path = 'assets/images/divisions/';
         $img_tagOpen = '<img height=50 src="';
         $img_tagClose = '">';
-        
+
 
         //bootstrap the table
         $parms = array(
@@ -82,8 +72,8 @@ class League extends Application {
         //set the table to use the bootstrap template
         $this->table->set_template($parms);
 
-        
-        
+
+
 
         //Create table heading 
         $this->table->set_heading('<div style="text-align:center;">League - 2015</div>', '<div class="btn-group">
@@ -105,22 +95,42 @@ class League extends Application {
         $this->data['allTeams6'] = '';
         $this->data['allTeams7'] = '';
         $this->data['allTeams8'] = '';
-        
-        
-        if($league == 'active'){
+
+
+        if ($league == 'active') {
             //Create table for each team group
-            $teams = $this->leagues->all();
+            $teams = $this->leagues->getAll();
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("Team Name", "City", "Team Logo");
             foreach ($teams as $team) {
-                $temp_filename = $team->filename;
-                $team->filename = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
-                $this->table->add_row($team->name, $team->city, $team->filename);
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
             $this->data['allTeams'] = $this->table->generate();
             $this->data['pagebody'] = 'league';
             $this->render();
-        }else if ($conference == 'active') {
+        } else if ($conference == 'active') {
             $teams = $this->leagues->getByConference('American Football Conference');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>American Football Conference</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
@@ -128,26 +138,54 @@ class League extends Application {
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
             $this->data['allTeams'] = $this->table->generate();
-            
+
             $this->table->clear();
 
             $teams = $this->leagues->getByConference('National Football Conference');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>National Football Conference</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
                 $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
-            
+
             $this->data['allTeams2'] = $this->table->generate();
-            
+
             //array_merge((array) $this->data['allTeams'], (array) $this->table->generate());
             $this->data['pagebody'] = 'league';
             $this->render();
-           
-           
-        }else if ($division == 'active') {
+        } else if ($division == 'active') {
             $teams = $this->leagues->getByDivision('AFC North');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>AFC North</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
@@ -155,44 +193,84 @@ class League extends Application {
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
             $this->data['allTeams'] = $this->table->generate();
-            
+
             $this->table->clear();
 
             $teams = $this->leagues->getByDivision('AFC South');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>AFC South</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
                 $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
-            
+
             $this->data['allTeams2'] = $this->table->generate();
-            
+
             $this->table->clear();
-            
+
             $teams = $this->leagues->getByDivision('AFC East');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>AFC East</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
                 $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
-            
+
             $this->data['allTeams3'] = $this->table->generate();
             $this->table->clear();
-                        
+
             $teams = $this->leagues->getByDivision('AFC West');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>AFC West</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
                 $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
-            
+
             $this->data['allTeams4'] = $this->table->generate();
             $this->table->clear();
-            
+
             $teams = $this->leagues->getByDivision('NFC North');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>NFC North</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
@@ -200,51 +278,81 @@ class League extends Application {
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
             $this->data['allTeams5'] = $this->table->generate();
-            
+
             $this->table->clear();
 
             $teams = $this->leagues->getByDivision('NFC South');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>NFC South</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
                 $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
-            
+
             $this->data['allTeams6'] = $this->table->generate();
-            
+
             $teams = $this->leagues->getByDivision('NFC East');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>NFC East</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
                 $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
-            
+
             $this->data['allTeams7'] = $this->table->generate();
             $this->table->clear();
-                        
+
             $teams = $this->leagues->getByDivision('NFC West');
+            if ($_SESSION['league_OrderBy'] == 'name') {
+                $name = "active";
+                usort($teams, "cmpName");
+            } else if ($_SESSION['league_OrderBy'] == 'city') {
+                $city = "active";
+                usort($teams, "cmpCity");
+            } else if ($_SESSION['league_OrderBy'] == 'standings') {
+                $standings = "active";
+                // usort($players, "cmpPosition");
+            }
             $this->table->set_heading("<h4>NFC West</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
                 $temp_filename = $team['filename'];
                 $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
                 $this->table->add_row($team['name'], $team['city'], $team['filename']);
             }
-            
+
             $this->data['allTeams8'] = $this->table->generate();
-                    
-            
-            
-            
-            
+
+
+
+
+
             //array_merge((array) $this->data['allTeams'], (array) $this->table->generate());
             $this->data['pagebody'] = 'league';
             $this->render();
         }
     }
 
-        /**
+    /**
      * id holds the type type of ordering to order the table or gallery
      * @param type $id
      */
@@ -253,7 +361,7 @@ class League extends Application {
         $_SESSION['league_OrderBy'] = $id;
         header('Location: /league');
     }
-    
+
     /**
      * toggles from gallery to table
      * @param type $id is either gallery or table
@@ -263,4 +371,5 @@ class League extends Application {
         $_SESSION['league_ViewState'] = $id;
         header('Location: /league');
     }
+
 }

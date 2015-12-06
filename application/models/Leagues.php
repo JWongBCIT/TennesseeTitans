@@ -27,4 +27,9 @@ class Leagues extends MY_Model {
         
     }
     
+    public function getAll(){
+        $this->db->select('name , city, filename');
+        return $this->db->get('league')->result_array();
+    }
+    
 }
