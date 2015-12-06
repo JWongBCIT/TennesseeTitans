@@ -28,8 +28,20 @@ class League extends Application {
             $_SESSION['league_OrderBy'] = 'name';
         }
         
+        if (isset($_SESSION['league_ViewState']) == FALSE) {
+            $_SESSION['league_ViewState'] = 'league';
+        }
+        
         //Create table for each team group
         $teams = $this->leagues->all();
+        
+        $name = '';
+        $city = '';
+        $standings = '';
+
+        $league = '';
+        $conference = '';
+        $division = '';
         
         if ($_SESSION['league_OrderBy'] == 'name') {
             $name = "active";
@@ -39,9 +51,17 @@ class League extends Application {
             usort($teams, "cmpCity");
         } else if ($_SESSION['league_OrderBy'] == 'standings') {
             $standings = "active";
-            //usort($players, "cmpPosition");
+           // usort($players, "cmpPosition");
         }
         
+        
+         if ($_SESSION['league_ViewState'] == 'league') {
+            $league = "active";
+        } else if ($_SESSION['league_ViewState'] == 'conference') {
+            $conference = "active";
+        } else if ($_SESSION['league_ViewState'] == 'division') {
+            $division = "active";
+        }
         
         
         
@@ -62,14 +82,8 @@ class League extends Application {
         //set the table to use the bootstrap template
         $this->table->set_template($parms);
 
-        $name = '';
-        $city = '';
-        $standings = '';
-
-        $table = '';
-        $gallery = '';
-        $editorOn = '';
-        $editorOff = '';
+        
+        
 
         //Create table heading 
         $this->table->set_heading('<div style="text-align:center;">League - 2015</div>', '<div class="btn-group">
@@ -77,25 +91,57 @@ class League extends Application {
             <a href="' . base_url() . 'league/order/city" class="btn btn-primary ' . $city . '">City</a>
             <a href="' . base_url() . 'league/order/standings" class="btn btn-primary ' . $standings . '">Standings</a>
         </div>', '<div class="btn-group">
-            <a href="' . base_url() . 'league/toggle/league" class="btn btn-primary ' . $table . '">League View</a>
-            <a href="' . base_url() . 'league/toggle/conference" class="btn btn-primary ' . $gallery . '">Conference View</a>
-            <a href="' . base_url() . 'league/toggle/division" class="btn btn-primary ' . $gallery . '">Division View</a>    
+            <a href="' . base_url() . 'league/toggle/league" class="btn btn-primary ' . $league . '">League View</a>
+            <a href="' . base_url() . 'league/toggle/conference" class="btn btn-primary ' . $conference . '">Conference View</a>
+            <a href="' . base_url() . 'league/toggle/division" class="btn btn-primary ' . $division . '">Division View</a>    
         </div>'
         );
         $this->data['toggleBar'] = $this->table->generate();
         $this->table->clear();
-
+        $this->data['allTeams2'] = '';
         
-        //var_dump($teams);
-        $this->table->set_heading("Team Name", "City", "Team Logo");
-        foreach ($teams as $team) {
-            $temp_filename = $team->filename;
-            $team->filename = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
-            $this->table->add_row($team->name, $team->city, $team->filename);
+        if($league == 'active'){
+            //Create table for each team group
+            $teams = $this->leagues->all();
+            $this->table->set_heading("Team Name", "City", "Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team->filename;
+                $team->filename = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team->name, $team->city, $team->filename);
+            }
+            $this->data['allTeams'] = $this->table->generate();
+            $this->data['pagebody'] = 'league';
+            $this->render();
+        }else if ($conference == 'active') {
+            $teams = $this->leagues->getByConference('American Football Conference');
+            $this->table->set_heading("American Football Conference<br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            $this->data['allTeams'] = $this->table->generate();
+            
+            $this->table->clear();
+
+            $teams = $this->leagues->getByConference('National Football Conference');
+            $this->table->set_heading("National Football Conference<br>Team Name", "<br>City", "<br>Team Logo");
+            foreach ($teams as $team) {
+                $temp_filename = $team['filename'];
+                $team['filename'] = $img_tagOpen . $img_path . $temp_filename . $img_tagClose;
+                $this->table->add_row($team['name'], $team['city'], $team['filename']);
+            }
+            
+            $this->data['allTeams2'] = $this->table->generate();
+            
+            //array_merge((array) $this->data['allTeams'], (array) $this->table->generate());
+            $this->data['pagebody'] = 'league';
+            $this->render();
+           
+           
+        }else if ($division == 'active') {
+            echo "d";
         }
-        $this->data['allTeams'] = $this->table->generate();
-        $this->data['pagebody'] = 'league';
-        $this->render();
     }
 
         /**
@@ -105,6 +151,16 @@ class League extends Application {
     public function order($id) {
         session_start();
         $_SESSION['league_OrderBy'] = $id;
+        header('Location: /league');
+    }
+    
+    /**
+     * toggles from gallery to table
+     * @param type $id is either gallery or table
+     */
+    public function toggle($id) {
+        session_start();
+        $_SESSION['league_ViewState'] = $id;
         header('Location: /league');
     }
 }

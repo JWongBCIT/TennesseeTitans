@@ -20,4 +20,11 @@ class Leagues extends MY_Model {
         return $this->db->get('league')->result_array();
     }
 
+    public function getByConference($conf){
+        $this->db->select('name , city, filename');
+        $this->db->where('conference' , $conf);
+        return $this->db->get('league')->result_array();
+        
+    }
+    
 }
