@@ -1,11 +1,2 @@
-{AFC}
-{AFC East}
-{AFC North}
-{AFC South}
-{AFC West}
-{NFC}
-{NFC East}
-{NFC North}
-{NFC South}
-{NFC West}
-
+{toggleBar}
+{allTeams}
