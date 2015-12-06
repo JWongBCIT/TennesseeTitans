@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 function cmpCity($a, $b) {
-return strcmp($a['city'], $b['city']);
+    return strcmp($a['city'], $b['city']);
 }
 
 function cmpName($a, $b) {
@@ -32,11 +32,7 @@ class League extends Application {
             $_SESSION['league_ViewState'] = 'league';
         }
 
-        //Create table for each team group
-        $teams = $this->leagues->all();
         
-        
-
         $name = '';
         $city = '';
         $standings = '';
@@ -44,6 +40,16 @@ class League extends Application {
         $league = '';
         $conference = '';
         $division = '';
+
+        if ($_SESSION['league_OrderBy'] == 'name') {
+            $name = "active";
+        } else if ($_SESSION['league_OrderBy'] == 'city') {
+            $city = "active";
+        } else if ($_SESSION['league_OrderBy'] == 'standings') {
+            $standings = "active";
+        }
+
+        
 
         if ($_SESSION['league_ViewState'] == 'league') {
             $league = "active";
