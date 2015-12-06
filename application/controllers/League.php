@@ -2,11 +2,19 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+function cmpCity($a, $b) {
+    return strcmp($a->city, $b->city);
+}
+
+function cmpName($a, $b) {
+    return strcmp($a->name, $b->name);
+}
+
 /**
  * This is the league controller. It gets every team in the league from the 
  * leagues model and sends it to the view.
  *
- * @author adamh
+ * @author Spero
  */
 class League extends Application {
     /*
@@ -15,6 +23,28 @@ class League extends Application {
 
     public function index() {
 
+        session_start();
+        if (isset($_SESSION['league_OrderBy']) == FALSE) {
+            $_SESSION['league_OrderBy'] = 'name';
+        }
+        
+        //Create table for each team group
+        $teams = $this->leagues->all();
+        
+        if ($_SESSION['league_OrderBy'] == 'name') {
+            $name = "active";
+            usort($teams, "cmpName");
+        } else if ($_SESSION['league_OrderBy'] == 'city') {
+            $city = "active";
+            usort($teams, "cmpCity");
+        } else if ($_SESSION['league_OrderBy'] == 'standings') {
+            $standings = "active";
+            //usort($players, "cmpPosition");
+        }
+        
+        
+        
+        
         //Gets all the team in the leagues model
         //$teams = $this->leagues->all();
         //add the table helper
@@ -22,6 +52,7 @@ class League extends Application {
         $img_path = 'assets/images/divisions/';
         $img_tagOpen = '<img height=50 src="';
         $img_tagClose = '">';
+        
 
         //bootstrap the table
         $parms = array(
@@ -32,8 +63,8 @@ class League extends Application {
         $this->table->set_template($parms);
 
         $name = '';
-        $number = '';
-        $position = '';
+        $city = '';
+        $standings = '';
 
         $table = '';
         $gallery = '';
@@ -42,20 +73,19 @@ class League extends Application {
 
         //Create table heading 
         $this->table->set_heading('<div style="text-align:center;">League - 2015</div>', '<div class="btn-group">
-            <a href="' . base_url() . 'league/order/city" class="btn btn-primary ' . $name . '">City</a>
-            <a href="' . base_url() . 'league/order/team" class="btn btn-primary ' . $number . '">Team</a>
-            <a href="' . base_url() . 'league/order/division" class="btn btn-primary ' . $position . '">Division</a>
+            <a href="' . base_url() . 'league/order/name" class="btn btn-primary ' . $name . '">Team</a>
+            <a href="' . base_url() . 'league/order/city" class="btn btn-primary ' . $city . '">City</a>
+            <a href="' . base_url() . 'league/order/standings" class="btn btn-primary ' . $standings . '">Standings</a>
         </div>', '<div class="btn-group">
             <a href="' . base_url() . 'league/toggle/league" class="btn btn-primary ' . $table . '">League View</a>
             <a href="' . base_url() . 'league/toggle/conference" class="btn btn-primary ' . $gallery . '">Conference View</a>
-            <a href="' . base_url() . 'league/toggle/standings" class="btn btn-primary ' . $gallery . '">Standings View</a>    
+            <a href="' . base_url() . 'league/toggle/division" class="btn btn-primary ' . $gallery . '">Division View</a>    
         </div>'
         );
         $this->data['toggleBar'] = $this->table->generate();
         $this->table->clear();
 
-        //Create table for each team group
-        $teams = $this->leagues->all();
+        
         //var_dump($teams);
         $this->table->set_heading("Team Name", "City", "Team Logo");
         foreach ($teams as $team) {
@@ -74,7 +104,7 @@ class League extends Application {
      */
     public function order($id) {
         session_start();
-        $_SESSION['orderBy'] = $id;
-        header('Location: /roster');
+        $_SESSION['league_OrderBy'] = $id;
+        header('Location: /league');
     }
 }
