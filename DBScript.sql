@@ -7,6 +7,10 @@ CREATE TABLE IF NOT EXISTS `league` (
     `conference` varchar(64) NOT NULL,
     `division` varchar(64) NOT NULL,
     `filename` varchar(256) NOT NULL,
+    `wins` int(3),
+    `losses` int(3),
+    `ties` int(3),
+    `netpoints` int(3),
     PRIMARY KEY (id)
 );
 
@@ -61,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `roster` (
   `mugshot` varchar(64) NOT NULL,
    PRIMARY KEY (id)
 );
+
 INSERT INTO `roster` (`surname`, `firstname`, `number`, `position`, 
 `mugshot`) VALUES
 ('Andrews', 'Antonio', 26, 'RB', 'mugshot_1.jpg'),
@@ -115,3 +120,12 @@ INSERT INTO `roster` (`surname`, `firstname`, `number`, `position`,
 ('Woodyard', 'Wesley', 59, 'DL', 'mugshot_10.jpg'),
 ('Wreh-Wilson', 'Blidi', 25, 'LB', 'mugshot_1.jpg'),
 ('Wright', 'Kendall', 13, 'CB', 'mugshot_2.jpg');
+
+DROP TABLE IF EXISTS `history`;
+CREATE TABLE IF NOT EXISTS `history` (
+    `home` varchar(3) NOT NULL,
+    `away` varchar(3) NOT NULL,
+    `score` varchar(5) NOT NULL,
+    `date` varchar(8) NOT NULL,
+    `inserted` datetime DEFAULT CURRENT_TIMESTAMP
+);

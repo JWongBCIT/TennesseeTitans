@@ -14,7 +14,7 @@ function cmpName($a, $b) {
  * This is the league controller. It gets every team in the league from the 
  * leagues model and sends it to the view.
  *
- * @author Spero
+ * @author Jason
  */
 class League extends Application {
     /*
@@ -32,7 +32,7 @@ class League extends Application {
             $_SESSION['league_ViewState'] = 'league';
         }
 
-        
+
         $name = '';
         $city = '';
         $standings = '';
@@ -49,7 +49,7 @@ class League extends Application {
             $standings = "active";
         }
 
-        
+
 
         if ($_SESSION['league_ViewState'] == 'league') {
             $league = "active";
@@ -90,6 +90,8 @@ class League extends Application {
             <a href="' . base_url() . 'league/toggle/league" class="btn btn-primary ' . $league . '">League View</a>
             <a href="' . base_url() . 'league/toggle/conference" class="btn btn-primary ' . $conference . '">Conference View</a>
             <a href="' . base_url() . 'league/toggle/division" class="btn btn-primary ' . $division . '">Division View</a>    
+        </div>', '<div class="btn-group">
+            <a href="' . base_url() . 'league/updater" class="btn btn-primary">Update Standings</a>  
         </div>'
         );
         $this->data['toggleBar'] = $this->table->generate();
@@ -114,6 +116,22 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
+
+                $context = stream_context_create(array(
+                    'http' => array(
+                        'method'    => 'GET',
+                        //'content'   => 'Content-Type: text/xml'
+                        'dataType'  => 'xml'
+                    )
+                ));
+                
+                $teamXml = file_get_contents('http://nfl.jlparry.com/standings', FALSE, $context);
+                $trueXml = simplexml_load_string($teamXml);
+                //var_dump($trueXml);
+                $this->leagues->parse_results($trueXml);
+                
+                //move this to a button
+                //$this->history->update_DB();$this->load->model('History', 'history');
                 // usort($players, "cmpPosition");
             }
             $this->table->set_heading("Team Name", "City", "Team Logo");
@@ -348,11 +366,6 @@ class League extends Application {
 
             $this->data['allTeams8'] = $this->table->generate();
 
-
-
-
-
-            //array_merge((array) $this->data['allTeams'], (array) $this->table->generate());
             $this->data['pagebody'] = 'league';
             $this->render();
         }
