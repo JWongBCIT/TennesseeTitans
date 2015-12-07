@@ -52,4 +52,7 @@ class History extends MY_Model2 {
         }
     }
 
+    public function calc($teamName){
+        
+    }
 }
