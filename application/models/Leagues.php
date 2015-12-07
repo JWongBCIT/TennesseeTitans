@@ -4,7 +4,7 @@
  * This is the league model. It repersents all the teams in the league 
  * with affiliated info.
  *
- * @author adamh & jasonw
+ * @author sperol & jasonw
  */
 class Leagues extends MY_Model {
 
@@ -14,19 +14,19 @@ class Leagues extends MY_Model {
     }
 
     public function getByDivision($div) {
-        $this->db->select('name , city, filename');
+        $this->db->select('name , city, filename, netpoints');
         $this->db->where('division', $div);
         return $this->db->get('league')->result_array();
     }
 
     public function getByConference($conf) {
-        $this->db->select('name , city, filename');
+        $this->db->select('name , city, filename, netpoints');
         $this->db->where('conference', $conf);
         return $this->db->get('league')->result_array();
     }
 
     public function getAll() {
-        $this->db->select('name , city, filename');
+        $this->db->select('name , city, filename, netpoints');
         return $this->db->get('league')->result_array();
     }
 
