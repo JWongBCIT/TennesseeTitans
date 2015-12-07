@@ -124,20 +124,19 @@ class League extends Application {
 
                 $context = stream_context_create(array(
                     'http' => array(
-                        'method'    => 'GET',
+                        'method' => 'GET',
                         //'content'   => 'Content-Type: text/xml'
-                        'dataType'  => 'xml'
+                        'dataType' => 'xml'
                     )
                 ));
-                
+
                 $teamXml = file_get_contents('http://nfl.jlparry.com/standings', FALSE, $context);
                 $trueXml = simplexml_load_string($teamXml);
                 //var_dump($trueXml);
                 $this->leagues->parse_results($trueXml);
-                
-                //move this to a button
-                //$this->history->update_DB();$this->load->model('History', 'history');
-                 usort($teams, "cmpStandings");
+
+
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("Team Name", "City", "Team Logo");
             foreach ($teams as $team) {
@@ -188,7 +187,7 @@ class League extends Application {
                 $city = "active";
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
-                $standings = "active";                
+                $standings = "active";
                 usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>National Football Conference</h4><br>Team Name", "<br>City", "<br>Team Logo");
@@ -339,7 +338,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-               usort($teams, "cmpStandings");
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>NFC East</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -393,6 +392,12 @@ class League extends Application {
     public function toggle($id) {
         session_start();
         $_SESSION['league_ViewState'] = $id;
+        header('Location: /league');
+    }
+
+    public function updater() {
+        $this->load->model('History', 'history');
+        $this->history->update_DB();
         header('Location: /league');
     }
 
