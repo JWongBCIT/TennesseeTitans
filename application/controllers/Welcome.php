@@ -24,12 +24,12 @@ class Welcome extends Application {
      */
     public function index() {
         $this->load->model('History', 'history'); //load
+        $this->load->model('Leagues', 'league'); //load
         $this->history->db->select('home, away');
         $checkThisOut = $this->history->all();
-
         //Make sure we pull if there is no data in history
-        if (is_null($checkThisOut[0]->home) || is_null($checkThisOut[0]->away)) {
-            //var_dump($checkThisOut);
+        if (empty($checkThisOut)) {
+            var_dump($checkThisOut);
             $this->updater();
         }
 
@@ -61,4 +61,9 @@ class Welcome extends Application {
         echo $superAvg;
     }
 
+    public function updater() {
+        $this->load->model('History', 'history');//load
+        $this->history->update_DB();
+        header('Location: /');
+    }
 }
