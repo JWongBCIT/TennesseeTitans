@@ -105,7 +105,7 @@ class League extends Application {
             <a href="' . base_url() . 'league/toggle/conference" class="btn btn-primary ' . $conference . '">Conference View</a>
             <a href="' . base_url() . 'league/toggle/division" class="btn btn-primary ' . $division . '">Division View</a>    
         </div>', '<div class="btn-group">
-            <a href="' . base_url() . 'league/updater" class="btn btn-primary">Update Standings</a>  
+            <a href="' . base_url() . 'league/updater" class="btn btn-primary">Update Game History</a>  
         </div>'
         );
         $this->data['toggleBar'] = $this->table->generate();

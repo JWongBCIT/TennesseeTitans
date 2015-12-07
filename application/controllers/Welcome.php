@@ -23,6 +23,16 @@ class Welcome extends Application {
      * @see http://codeigniter.com/user_guide/general/urls.html
      */
     public function index() {
+        $this->load->model('History', 'history'); //load
+        $this->history->db->select('home, away');
+        $checkThisOut = $this->history->all();
+
+        //Make sure we pull if there is no data in history
+        if (is_null($checkThisOut[0]->home) || is_null($checkThisOut[0]->away)) {
+            //var_dump($checkThisOut);
+            $this->updater();
+        }
+
         $this->load->helper('form');
         $options = array(
             'BUF' => 'Buffalo Bills',
@@ -44,8 +54,8 @@ class Welcome extends Application {
         $this->data['pagebody'] = 'welcome';
         $this->render();
     }
-    
-    public function doAjaxCheck($opponent){
+
+    public function doAjaxCheck($opponent) {
         $this->load->model('History', 'history');
         $superAvg = 0.7 * $this->history->average('TEN') + 0.2 * $this->history->last5Average() + 0.1 * $this->history->againstAverage($opponent);
         echo $superAvg;
