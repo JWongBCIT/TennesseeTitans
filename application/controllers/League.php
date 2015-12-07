@@ -10,6 +10,10 @@ function cmpName($a, $b) {
     return strcmp($a['name'], $b['name']);
 }
 
+function cmpStandings($a, $b) {
+    return $a['netpoints'] < $b['netpoints'];
+}
+
 /**
  * This is the league controller. It gets every team in the league from the 
  * leagues model and sends it to the view.
@@ -108,6 +112,7 @@ class League extends Application {
         if ($league == 'active') {
             //Create table for each team group
             $teams = $this->leagues->getAll();
+            //var_dump($teams);
             if ($_SESSION['league_OrderBy'] == 'name') {
                 $name = "active";
                 usort($teams, "cmpName");
@@ -132,7 +137,7 @@ class League extends Application {
                 
                 //move this to a button
                 //$this->history->update_DB();$this->load->model('History', 'history');
-                // usort($players, "cmpPosition");
+                 usort($teams, "cmpStandings");
             }
             $this->table->set_heading("Team Name", "City", "Team Logo");
             foreach ($teams as $team) {
@@ -153,7 +158,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>American Football Conference</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -174,7 +179,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+                usort($teams, "cmpStandings");
             }
             if ($_SESSION['league_OrderBy'] == 'name') {
                 $name = "active";
@@ -183,8 +188,8 @@ class League extends Application {
                 $city = "active";
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
-                $standings = "active";
-                // usort($players, "cmpPosition");
+                $standings = "active";                
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>National Football Conference</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -208,7 +213,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>AFC North</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -229,7 +234,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>AFC South</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -251,7 +256,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>AFC East</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -272,7 +277,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>AFC West</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -293,7 +298,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>NFC North</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -314,7 +319,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>NFC South</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -334,7 +339,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+               usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>NFC East</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
@@ -355,7 +360,7 @@ class League extends Application {
                 usort($teams, "cmpCity");
             } else if ($_SESSION['league_OrderBy'] == 'standings') {
                 $standings = "active";
-                // usort($players, "cmpPosition");
+                usort($teams, "cmpStandings");
             }
             $this->table->set_heading("<h4>NFC West</h4><br>Team Name", "<br>City", "<br>Team Logo");
             foreach ($teams as $team) {
