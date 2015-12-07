@@ -47,7 +47,7 @@ class Welcome extends Application {
     
     public function doAjaxCheck($opponent){
         $this->load->model('History', 'history');
-        $superAvg = 0.7 * $this->history->average('TEN') + 0.2 * $this->history->last5Average() + 0.1 * $this->history->againstAverage('DAL');
+        $superAvg = 0.7 * $this->history->average('TEN') + 0.2 * $this->history->last5Average() + 0.1 * $this->history->againstAverage($opponent);
         echo $superAvg;
     }
 

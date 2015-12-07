@@ -5,9 +5,9 @@
 
 <div style="width:575px; margin-left: auto; margin-right: auto;" >
     <h4>Check predictions: </h4>
-        {dropdown}
-        <br>
-        <button id="btnI" class="btn btn-default">Check!</button>
+    {dropdown}
+    <br>
+    <button id="btnI" class="btn btn-default">Check!</button>
 
     <div id="prediction">
 
@@ -21,13 +21,19 @@
     The Oilers won the first two AFL championships, and joined the NFL as part of the AFL-NFL Merger in 1970.</p>
 
 <script>
-    $(document).ready(function () {
-        $('#btnI').click(jsFunc);
-        var jsFunc = function(){
-            $.get("welcome/doAjaxCheck/" + $opponent, function (data) {
-                $("#prediction").html(data);
-                alert("Load was performed.");
-            });
-        }
+//    $(document).ready(function () {
+//        $('#btnI').click(jsFunc);
+//        var jsFunc = function(){
+//            $.get("welcome/doAjaxCheck/" + $opponent, function (data) {
+//                $("#prediction").html(data);
+//                alert("Load was performed.");
+//            });
+//        }
+//    });
+    $("#btnI").click(function () {
+        var val1 = $('#selectForm').val();
+        $.get("welcome/doAjaxCheck/" + val1, function (data) {
+            $("#prediction").html("<br>Possible score against " + val1 + " : " + data);
+        });
     });
 </script>
