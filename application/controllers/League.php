@@ -396,7 +396,7 @@ class League extends Application {
     }
 
     public function updater() {
-        $this->load->model('History', 'history');
+        $this->load->model('History', 'history');//load
         $this->history->update_DB();
         header('Location: /league');
     }
