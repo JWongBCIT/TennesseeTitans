@@ -18,7 +18,7 @@ function cmpStandings($a, $b) {
  * This is the league controller. It gets every team in the league from the 
  * leagues model and sends it to the view.
  *
- * @author Jason
+ * @author Jason only
  */
 class League extends Application {
     /*
@@ -26,7 +26,17 @@ class League extends Application {
      */
 
     public function index() {
-
+        $this->load->model('History', 'history');//load
+        $this->history->db->select('home, away');
+        $checkThisOut = $this->history->all();
+        
+        //Make sure we pull if there is no data in history
+        if(is_null($checkThisOut[0]->home) || is_null($checkThisOut[0]->away)){
+            //var_dump($checkThisOut);
+            $this->updater();
+        }
+        
+        
         session_start();
         if (isset($_SESSION['league_OrderBy']) == FALSE) {
             $_SESSION['league_OrderBy'] = 'name';

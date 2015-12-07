@@ -40,9 +40,15 @@ class Welcome extends Application {
             }
         }
         $finalOptions = array_combine($codes, $teams);
-        $this->data['dropdown'] = form_dropdown('teams', $finalOptions, '', 'class="form-control"');
+        $this->data['dropdown'] = form_dropdown('teams', $finalOptions, '', 'id="selectForm" class="form-control"');
         $this->data['pagebody'] = 'welcome';
         $this->render();
+    }
+    
+    public function doAjaxCheck($opponent){
+        $this->load->model('History', 'history');
+        $superAvg = 0.7 * $this->history->average('TEN') + 0.2 * $this->history->last5Average() + 0.1 * $this->history->againstAverage('DAL');
+        echo $superAvg;
     }
 
 }

@@ -52,7 +52,86 @@ class History extends MY_Model2 {
         }
     }
 
-    public function calc($teamName){
-        
+    public function average($teamName) {
+        $this->db->select('score');
+        $this->db->where('home', $teamName);
+        $scoresBoth = $this->db->get('history')->result_array();
+
+        $total = 0;
+        $totalScore = 0;
+        for ($i = 0; $i < count($scoresBoth); $i++) {
+            $singleScore = explode(':', $scoresBoth[$i]['score']);
+            $totalScore += $singleScore[0];
+            $total++;
+        }
+
+        $this->db->select('score');
+        $this->db->where('away', $teamName);
+        $scoresBoth = $this->db->get('history')->result_array();
+
+        for ($i = 0; $i < count($scoresBoth); $i++) {
+            $singleScore = explode(':', $scoresBoth[$i]['score']);
+            $totalScore += $singleScore[1];
+            $total++;
+        }
+
+        if ($total == 0) {
+            return 0;
+        }
+
+        return $totalScore / $total;
     }
+    
+    public function last5Average(){
+        $this->db->select('home, score');
+
+        $this->db->where('home', 'TEN');
+        $this->db->or_where('away', 'TEN');
+
+        $scoresBoth = $this->db->get('history')->result_array();
+
+        for ($i = 0; $i < count($scoresBoth) && $i < 5; $i++) {
+            $singleScore = explode(':', $scoresBoth[$i]['score']);
+            
+            $totalScore = 0;
+            $total = 0;
+            //Home game, else away game
+            if ($scoresBoth[$i]['home'] == 'TEN') {
+                $totalScore += $singleScore[0];
+                $total++;
+            } else {
+                $totalScore += $singleScore[1];
+                $total++;
+            }
+        }
+        return $totalScore / $total;
+    }
+
+    public function againstAverage($teamName) {
+        $this->db->select('home, score');
+
+        $array1 = array('home' => 'TEN', 'away' => $teamName);
+        $this->db->where($array1);
+        $array2 = array('home' => $teamName, 'away' => 'TEN');
+        $this->db->or_where($array2);
+
+        $scoresBoth = $this->db->get('history')->result_array();
+
+        for ($i = 0; $i < count($scoresBoth) && $i < 5; $i++) {
+            $singleScore = explode(':', $scoresBoth[$i]['score']);
+           
+            $totalScore = 0;
+            $total = 0;
+            //Home game, else away game
+            if ($scoresBoth[$i]['home'] == 'TEN') {
+                $totalScore += $singleScore[0];
+                $total++;
+            } else {
+                $totalScore += $singleScore[1];
+                $total++;
+            }
+        }
+        return $totalScore / $total;
+    }
+
 }
